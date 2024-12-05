@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+<header>
+        <div class="header-container">
+            <div class="header-content">
+                <img src="/static/hospital-logo.png" alt="hospital Logo" class="logo">
+                <span class="header-text">PerScholas Capstone Hospital</span>
+            </div>
+        </div>
+        <div class="container">
+            <a href="/logout" class="btn btn-danger float-end">Logout</a>
+        </div>
+
+</header>
+<div class="container mt-5">
+    <h2>Doctor Dashboard</h2>
+
+    <!-- Success/Error Messages -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="doctorTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="viewAppointmentsTab" data-bs-toggle="tab" href="#viewAppointments" role="tab">View Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="manageAppointmentsTab" data-bs-toggle="tab" href="#manageAppointments" role="tab">Manage Appointments</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="doctorTabsContent">
+        <!-- View Appointments -->
+        <div class="tab-pane fade show active" id="viewAppointments" role="tabpanel">
+            <h4>Your Appointments</h4>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Doctor Dashboard</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+            </head>
+            <body>
+            <div class="container mt-5">
+                <h1>Doctor Dashboard</h1>
+                <h2>Appointments</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="appointment : ${appointments}">
+                        <td th:text="${appointment.id}"></td>
+                        <td th:text="${appointment.patient.firstName + ' ' + appointment.patient.lastName}"></td>
+                        <td th:text="${appointment.appointmentDate}"></td>
+                        <td th:text="${appointment.status}"></td>
+                        <td>
+                            <form action="/doctor/updateAppointment" method="post">
+                                <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+                                <select name="status" class="form-select">
+                                    <option value="CONFIRMED">Confirm</option>
+                                    <option value="CANCELED">Cancel</option>
+                                    <option value="COMPLETED">Complete</option>
+                                    <option value="RESCHEDULED">Reschedule</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            </body>
+            </html>
+
+        </div>
+
+        <!-- Manage Appointments -->
+        <div class="tab-pane fade" id="manageAppointments" role="tabpanel">
+            <h4>Manage Appointments</h4>
+            <form action="/doctor/updateAppointment" method="post">
+                <div class="mb-3">
+                    <label for="appointment" class="form-label">Select Appointment</label>
+                    <select class="form-select" id="appointment" name="appointmentId">
+                        <option th:each="appointment : ${appointments}" th:value="${appointment.id}" th:text="'Appointment on ' + ${#temporals.format(appointment.appointmentDate, 'yyyy-MM-dd HH:mm')}">Appointment</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Update Status</label>
+                    <select class="form-select" id="status" name="status">
+                        <option value="CONFIRMED">Confirmed</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELED">Canceled</option>
+                        <option value="RESCHEDULED">Rescheduled</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="newDate" class="form-label">Reschedule Date (if applicable)</label>
+                    <input type="datetime-local" class="form-control" id="newDate" name="newDate">
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

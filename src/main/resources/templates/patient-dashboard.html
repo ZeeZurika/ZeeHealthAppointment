@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+<header>
+    <div class="header-container">
+        <div class="header-content">
+            <img src="/static/hospital-logo.png" alt="Hospital Logo" class="logo">
+            <span class="header-text">PerScholas Capstone Hospital</span>
+        </div>
+    </div>
+    <div class="container">
+        <a href="/logout" class="btn btn-danger float-end">Logout</a>
+    </div>
+</header>
+<div class="container mt-5">
+    <h2>Patient Dashboard</h2>
+
+    <!-- Success/Error Messages -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="patientTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="viewAppointmentsTab" data-bs-toggle="tab" href="#viewAppointments" role="tab">View Appointments</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="scheduleAppointmentTab" data-bs-toggle="tab" href="#scheduleAppointment" role="tab">Schedule Appointment</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="updateInfoTab" data-bs-toggle="tab" href="#updateInfo" role="tab">Update Information</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="patientTabsContent">
+        <!-- View Appointments -->
+        <div class="tab-pane fade show active" id="viewAppointments" role="tabpanel">
+            <h4>Your Appointments</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="appointment : ${appointments}">
+                    <td th:text="${appointment.id}"></td>
+                    <td th:text="${appointment.doctor.firstName + ' ' + appointment.doctor.lastName}"></td>
+                    <td th:text="${appointment.appointmentDate}"></td>
+                    <td th:text="${appointment.status}"></td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Schedule Appointment -->
+        <div class="tab-pane fade" id="scheduleAppointment" role="tabpanel">
+            <h4>Schedule a New Appointment</h4>
+            <form action="/patient/schedule" method="post">
+                <div class="mb-3">
+                    <label for="doctor" class="form-label">Select Doctor</label>
+                    <select class="form-select" id="doctor" name="doctorId">
+                        <option th:each="doctor : ${doctors}" th:value="${doctor.id}" th:text="${doctor.firstName} + ' ' + ${doctor.lastName}">Dr. Smith</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Select Date</label>
+                    <input type="datetime-local" class="form-control" id="date" name="appointmentDate" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Schedule</button>
+            </form>
+        </div>
+
+        <!-- Update Information -->
+        <div class="tab-pane fade" id="updateInfo" role="tabpanel">
+            <h4>Update Your Information</h4>
+            <form action="/patient/updateInfo" method="post">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" th:value="${patient.firstName}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" th:value="${patient.lastName}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" th:value="${patient.email}" required>
+                </div>
+                <div>
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" name="password" class="form-control" placeholder="New Password">
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

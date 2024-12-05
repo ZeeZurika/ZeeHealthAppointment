@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="header-content">
+                <img src="/static/hospital-logo.png" alt="hospital Logo" class="logo">
+                <span class="header-text">PerScholas Capstone Hospital</span>
+            </div>
+        </div>
+    </header>
+<div class="container mt-5">
+
+    <div>
+        <!-- Welcome Message -->
+        <p class="text-center">We're glad you're here! Per Scholas Capstone Hospital is here to help you with your
+            appointment with your doctor.</p><br>
+        <p>All new patients should contact the staff to have your account set up.</p>
+
+        <h4>Existing users can log in below.</h4>
+
+    </div>
+
+    <h1 class="text-center">Login</h1>
+    <form action="/login" method="post" class="mt-4">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+        <div th:if="${error}" class="text-danger mt-3" th:text="${error}"></div>
+    </form>
+</div>
+</body>
+</html>
