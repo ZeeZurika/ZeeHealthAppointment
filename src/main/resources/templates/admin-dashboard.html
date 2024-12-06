@@ -13,7 +13,9 @@
     <h1>Admin Dashboard</h1>
 
     <!-- Success/Error Messages -->
-    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:utext="${successMessage}"></span>
+    </div>
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
     <!-- Tabs for Admin Dashboard -->
@@ -34,10 +36,9 @@
 
     <div class="tab-content mt-3" id="adminTabsContent">
         <!-- Manage Users Tab -->
-        <div class="tab-pane fade" id="manageUsers" role="tabpanel" th:classappend="${activeTab == 'manageUsers'} ? 'show active' : ''">
+        <div class="tab-pane fade" id="manageUsers" role="tabpanel"
+             th:classappend="${activeTab == 'manageUsers'} ? 'show active'">
             <h2>Manage Users</h2>
-
-            <!-- Add User Form -->
             <form action="/admin/addUser" method="post" class="mb-4">
                 <div class="mb-3">
                     <input type="text" class="form-control" name="username" placeholder="Username" required>
@@ -65,7 +66,6 @@
                 <button type="submit" class="btn btn-primary">Add User</button>
             </form>
 
-            <!-- List of Users -->
             <h4>Current Users</h4>
             <table class="table table-striped">
                 <thead>
@@ -97,7 +97,8 @@
         </div>
 
         <!-- Appointments Tab -->
-        <div class="tab-pane fade" id="appointments" role="tabpanel" th:classappend="${activeTab == 'appointments'} ? 'show active' : ''">
+        <div class="tab-pane fade" id="appointments" role="tabpanel"
+             th:classappend="${activeTab == 'appointments'} ? 'show active'">
             <h2>Appointments</h2>
             <table class="table">
                 <thead>
@@ -122,7 +123,8 @@
         </div>
 
         <!-- Reports Tab -->
-        <div class="tab-pane fade" id="reports" role="tabpanel" th:classappend="${activeTab == 'reports'} ? 'show active' : ''">
+        <div class="tab-pane fade" id="reports" role="tabpanel"
+             th:classappend="${activeTab == 'reports'} ? 'show active'">
             <h2>Generate Reports</h2>
             <form action="/admin/generateReport" method="post">
                 <input type="hidden" name="activeTab" value="reports">
@@ -139,5 +141,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+<script src="/static/app.js"></script>
 </body>
 </html>

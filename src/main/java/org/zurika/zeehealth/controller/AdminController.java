@@ -5,8 +5,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.zurika.zeehealth.model.Appointment;
-import org.zurika.zeehealth.model.User;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zurika.zeehealth.model.*;
 import org.zurika.zeehealth.service.*;
 
 import java.util.List;
@@ -85,6 +85,19 @@ public class AdminController {
         return "admin-dashboard";
     }
 
+    @PostMapping("/generateReport")
+    public String generateReport(@RequestParam String reportType, RedirectAttributes redirectAttributes) {
+        try {
+            String fileUrl = reportService.generateReport(reportType); // Generate report and get file URL
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Report generated successfully! Download it <a href='" + fileUrl + "'>here</a>.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error generating report: " + e.getMessage());
+        }
+        redirectAttributes.addFlashAttribute("activeTab", "reports"); // Stay on Reports tab
+        return "redirect:/admin/dashboard";
+    }
+
     private String getString(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
         Page<Appointment> appointmentPage = appointmentService.getAllAppointments(PageRequest.of(page, size));
         model.addAttribute("appointments", appointmentPage.getContent());
@@ -97,4 +110,5 @@ public class AdminController {
 
         return "admin-dashboard";
     }
+
 }
