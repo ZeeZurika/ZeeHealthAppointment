@@ -71,10 +71,7 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found!"));
         appointment.setStatus(status);
-        appointmentRepository.save(appointment);
-
-        // ***** This will be deleted after the application is developed
-        System.out.println("Updated status to: " + appointment.getStatus()); // Log for verification
+        appointmentRepository.save(appointment); // Persist changes
     }
 
     // Reschedule an appointment
@@ -100,6 +97,26 @@ public class AppointmentService {
     // Get all appointments with page
     public Page<Appointment> getAllAppointments(Pageable pageable) {
         return appointmentRepository.findAll(pageable);
+    }
+
+    public void scheduleAppointment(Appointment appointment) {
+        User doctor = userRepository.findById(appointment.getDoctor().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Doctor not found!"));
+        User patient = userRepository.findById(appointment.getPatient().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Patient not found!"));
+
+        // Validate appointment date
+        if (appointment.getAppointmentDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Appointment date must be in the future.");
+        }
+
+        // Set additional attributes if necessary
+        appointment.setDoctor(doctor);
+        appointment.setPatient(patient);
+        appointment.setStatus(AppointmentStatus.PENDING); // Default status
+
+        // Save the appointment
+        appointmentRepository.save(appointment);
     }
 }
 

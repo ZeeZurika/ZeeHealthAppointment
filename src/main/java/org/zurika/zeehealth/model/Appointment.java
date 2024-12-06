@@ -3,8 +3,9 @@ package org.zurika.zeehealth.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.zurika.zeehealth.validation.CreateValidationGroup;
 
-import java.time.LocalDateTime;
+import java.time.*;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class Appointment {
     private User doctor;
 
     @Column(nullable = false)
-    @Future(message = "Appointment date must be in the future.")
+    @Future(message = "Appointment date must be in the future.", groups = CreateValidationGroup.class)
     private LocalDateTime appointmentDate;
 
     @Enumerated(EnumType.STRING)

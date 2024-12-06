@@ -47,15 +47,16 @@
                     <td th:text="${appointment.appointmentDate}"></td>
                     <td th:text="${appointment.status}"></td>
                     <td>
-                        <form action="/doctor/updateStatus" method="post" class="d-inline">
+                        <form action="/doctor/updateStatus" method="post">
                             <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                            <select name="status" class="form-select mb-2">
+                            <select name="status" class="form-select">
                                 <option value="CONFIRMED">Confirm</option>
                                 <option value="COMPLETED">Complete</option>
                                 <option value="CANCELED">Cancel</option>
                             </select>
-                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                            <button type="submit" class="btn btn-primary mt-2">Update</button>
                         </form>
+
                     </td>
                 </tr>
                 </tbody>

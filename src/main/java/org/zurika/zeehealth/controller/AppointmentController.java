@@ -5,10 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.zurika.zeehealth.model.Appointment;
 import org.zurika.zeehealth.service.AppointmentService;
+import org.zurika.zeehealth.validation.CreateValidationGroup;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -68,4 +72,12 @@ public class AppointmentController {
         }
         return "admin-dashboard";
     }
+
+    @PostMapping("/appointments")
+    public String createAppointment(
+            @Validated(CreateValidationGroup.class) @RequestBody Appointment appointment) {
+        appointmentService.scheduleAppointment(appointment);
+        return "redirect:/appointments";
+    }
+
 }

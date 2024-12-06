@@ -1,7 +1,12 @@
+
+/*
 body {
     font-family: Arial, sans-serif;
 }
 
+main {
+    background-color: #E3F2FD;
+}
 .header-container {
     background-color: #81b1e2;
     padding: 10px 20px;
@@ -25,10 +30,58 @@ body {
 
 .navbar-brand {
     font-weight: bold; /* Bold title */
-    font-size: 1.5rem; /* Adjust font size */
+/*    font-size: 1.5rem; /* Adjust font size */
+/*
 }
 
 .navbar {
     padding: 10px 20px; /* Add some padding for better spacing */
-    border-bottom: 2px solid #ddd; /* Optional bottom border for separation */
+/*    border-bottom: 2px solid #ddd; /* Optional bottom border for separation */
+/*}
+*/
+
+
+/* Body Background */
+body {
+    background-color: #E3F2FD; /* Light Blue Background */
+    color: #212529; /* Dark Gray Text for readability */
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: #0D47A1; /* Navy Blue Header/Navigation */
+}
+
+.navbar a,
+.navbar-brand {
+    color: #FFFFFF !important; /* White Text for Nav */
+}
+
+.navbar a:hover {
+    color: #E3F2FD !important; /* Light Blue Hover for contrast */
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #0D47A1; /* Navy Blue Buttons */
+    border-color: #0D47A1;
+}
+
+.btn-primary:hover {
+    background-color: #083a75; /* Darker Navy Blue on Hover */
+}
+
+/* Cards */
+.card {
+    background-color: #FFFFFF; /* White Cards for contrast */
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+    background-color: #0D47A1; /* Navy Blue Footer */
+    color: #FFFFFF; /* White Text */
+    padding: 1rem;
+    text-align: center;
 }
