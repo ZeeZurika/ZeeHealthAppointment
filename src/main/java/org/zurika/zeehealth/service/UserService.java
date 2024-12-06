@@ -1,11 +1,11 @@
-package org.zurika.healthappointment.service;
+package org.zurika.zeehealth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.zurika.healthappointment.model.User;
-import org.zurika.healthappointment.model.UserRole;
-import org.zurika.healthappointment.repository.UserRepository;
+import org.zurika.zeehealth.model.*;
+import org.zurika.zeehealth.repository.UserRepository;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Get all users
+    // Get all users sorted by id in descending order
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     // Get all doctors

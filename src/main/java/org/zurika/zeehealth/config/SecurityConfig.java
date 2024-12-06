@@ -1,14 +1,15 @@
-package org.zurika.healthappointment.config;
+package org.zurika.zeehealth.config;
 
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.zurika.healthappointment.service.CustomUserDetailsService;
+import org.zurika.zeehealth.service.*;
 
 @Configuration
 public class SecurityConfig {
@@ -45,4 +46,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        // Remove the default "ROLE_" prefix
+        return new GrantedAuthorityDefaults("");
+    }
 }
+

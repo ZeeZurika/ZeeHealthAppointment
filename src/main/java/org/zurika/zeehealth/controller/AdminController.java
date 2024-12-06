@@ -1,25 +1,101 @@
-package org.zurika.zeehealth;
+package org.zurika.zeehealth.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.zurika.zeehealth.model.Appointment;
+import org.zurika.zeehealth.model.User;
 import org.zurika.zeehealth.service.*;
+
+import java.util.List;
 
 @Controller
 public class AdminController {
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private AppointmentService appointmentService;
 
+    @Autowired
+    private ReportService reportService;
+
+    /**
+     * Display the admin dashboard with paginated appointments.
+     */
     @GetMapping("/admin/dashboard")
-    public String adminDashboard(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String adminDashboard(Model model,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size) {
+        Page<Appointment> appointmentPage = appointmentService.getAllAppointments(PageRequest.of(page, size));
+        model.addAttribute("appointments", appointmentPage.getContent());
+        model.addAttribute("totalPages", appointmentPage.getTotalPages());
+        model.addAttribute("pageNumber", page);
+        model.addAttribute("pageSize", size);
+
+        // Fetch users sorted by id (newest first)
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("appointments", appointmentService.getAllAppointments(PageRequest.of(page, 10)).getContent());
+        model.addAttribute("reportTypes", new String[]{"appointments-by-patient", "appointments-by-doctor"});
+        return "admin-dashboard";
+    }
+
+
+    /**
+     * Add a new user.
+     */
+    @PostMapping("/admin/addUser")
+    public String addUser(@RequestParam String username,
+                          @RequestParam String email,
+                          @RequestParam String password,
+                          @RequestParam String firstName,
+                          @RequestParam String lastName,
+                          @RequestParam String role) {
+        userService.addUser(username, email, password, firstName, lastName, role);
+        return "redirect:/admin/dashboard";
+    }
+
+    /**
+     * Delete a user by their ID.
+     */
+    @PostMapping("/admin/deleteUser")
+    public String deleteUser(@RequestParam Long userId) {
+        userService.deleteUser(userId);
+        return "redirect:/admin/dashboard";
+    }
+
+    /**
+     * Generate a report based on the selected type.
+     */
+    @PostMapping("/admin/generateReport")
+    public String generateReport(@RequestParam String reportType,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size, Model model) {
+        try {
+            // Generate the report
+            String report = reportService.generateReport(reportType);
+            model.addAttribute("report", report);
+            model.addAttribute("reportType", reportType);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", "Invalid report type selected: " + reportType);
+        }
+
+        // Add attributes for reloading the dashboard
+        return getString(page, size, model);
+    }
+
+    private String getString(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
+        Page<Appointment> appointmentPage = appointmentService.getAllAppointments(PageRequest.of(page, size));
+        model.addAttribute("appointments", appointmentPage.getContent());
+        model.addAttribute("totalPages", appointmentPage.getTotalPages());
+        model.addAttribute("pageNumber", page);
+        model.addAttribute("pageSize", size);
+
+        model.addAttribute("reportTypes", new String[]{"appointments-by-patient", "appointments-by-doctor"});
+        model.addAttribute("users", userService.getAllUsers());
+
         return "admin-dashboard";
     }
 }
-

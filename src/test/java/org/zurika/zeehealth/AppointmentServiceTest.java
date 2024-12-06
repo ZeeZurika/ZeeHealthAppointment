@@ -1,15 +1,19 @@
-package org.zurika.healthappointment;
+package org.zurika.zeehealth;
 
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import org.zurika.healthappointment.model.*;
-import org.zurika.healthappointment.repository.*;
-import org.zurika.healthappointment.service.*;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.*;
+import org.zurika.zeehealth.model.*;
+import org.zurika.zeehealth.repository.*;
+import org.zurika.zeehealth.service.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class AppointmentServiceTest {
@@ -30,19 +34,16 @@ class AppointmentServiceTest {
 
     @Test
     void testGetAllAppointments() {
-        List<Appointment> mockAppointments = List.of(
-                new Appointment(),
-                new Appointment()
-        );
+        Page<Appointment> mockPage = new PageImpl<>(List.of(new Appointment(), new Appointment()));
+        when(appointmentRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
 
-        when(appointmentRepository.findAll()).thenReturn(mockAppointments);
-
-        List<Appointment> appointments = appointmentService.getAllAppointments();
+        List<Appointment> appointments = appointmentService.getAllAppointments(PageRequest.of(0, 10)).getContent();
         assertNotNull(appointments);
         assertEquals(2, appointments.size());
 
-        verify(appointmentRepository, times(1)).findAll();
+        verify(appointmentRepository, times(1)).findAll(any(Pageable.class));
     }
+
 
     @Test
     void testScheduleAppointment() {

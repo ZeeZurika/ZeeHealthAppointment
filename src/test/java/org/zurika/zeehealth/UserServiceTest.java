@@ -1,16 +1,17 @@
-package org.zurika.healthappointment;
+package org.zurika.zeehealth;
 
 import org.junit.jupiter.api.*;
 import org.mockito.*;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.zurika.healthappointment.model.*;
-import org.zurika.healthappointment.repository.*;
-import org.zurika.healthappointment.service.*;
+import org.zurika.zeehealth.model.*;
+import org.zurika.zeehealth.repository.*;
+import org.zurika.zeehealth.service.*;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class UserServiceTest {
@@ -49,10 +50,10 @@ class UserServiceTest {
         User createdUser = userService.addUser(
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword(),
-                String.valueOf(user.getRole()),
-                user.getFirstName(),
-                user.getLastName()
+                "password123",
+                "TestFirstName",
+                "TestLastName",
+                "PATIENT"
         );
 
         // Assert: Verify the results
@@ -65,6 +66,7 @@ class UserServiceTest {
         verify(passwordEncoder, times(1)).encode("password123");
         verify(userRepository, times(1)).save(any(User.class));
     }
+
 
 
     @Test

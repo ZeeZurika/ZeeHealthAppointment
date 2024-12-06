@@ -1,12 +1,11 @@
-package org.zurika.healthappointment.config;
+package org.zurika.zeehealth.config;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.zurika.healthappointment.model.User;
-import org.zurika.healthappointment.model.UserRole;
-import org.zurika.healthappointment.repository.UserRepository;
+import org.zurika.zeehealth.model.*;
+import org.zurika.zeehealth.repository.*;
 
 @Component
 public class DataInitializer {

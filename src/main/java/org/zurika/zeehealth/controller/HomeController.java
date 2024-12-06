@@ -1,4 +1,4 @@
-package org.zurika.healthappointment.controller;
+package org.zurika.zeehealth.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,15 +20,11 @@ public class HomeController {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities()
                 .stream().findFirst().orElseThrow().getAuthority();
 
-        switch (role) {
-            case "ROLE_ADMIN":
-                return "redirect:/admin/dashboard";
-            case "ROLE_DOCTOR":
-                return "redirect:/doctor/dashboard";
-            case "ROLE_PATIENT":
-                return "redirect:/patient/dashboard";
-            default:
-                return "redirect:/?error=true"; // Redirect to login if the role is invalid
-        }
+        return switch (role) {
+            case "ROLE_ADMIN" -> "redirect:/admin/dashboard";
+            case "ROLE_DOCTOR" -> "redirect:/doctor/dashboard";
+            case "ROLE_PATIENT" -> "redirect:/patient/dashboard";
+            default -> "redirect:/?error=true";
+        };
     }
 }

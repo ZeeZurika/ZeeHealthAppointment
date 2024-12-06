@@ -6,9 +6,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.zurika.zeehealth.model.AppointmentStatus;
 import org.zurika.zeehealth.model.User;
 import org.zurika.zeehealth.service.*;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class DoctorController {
@@ -24,6 +27,26 @@ public class DoctorController {
         User doctor = userService.getByUsername(userDetails.getUsername());
         model.addAttribute("appointments", appointmentService.getDoctorAppointments(doctor.getId(), PageRequest.of(0, 10)));
         return "doctor-dashboard";
+    }
+
+    // Update the status of an appointment (e.g., Confirm, Complete, Cancel, Reschedule)
+    @PostMapping("/doctor/updateAppointment")
+    public String updateAppointment(@RequestParam Long appointmentId,
+                                    @RequestParam String status,
+                                    @RequestParam(required = false) String newDate,
+                                    Model model) {
+        try {
+            if ("RESCHEDULED".equalsIgnoreCase(status) && newDate != null) {
+                LocalDateTime rescheduleDate = LocalDateTime.parse(newDate);
+                appointmentService.rescheduleAppointment(appointmentId, rescheduleDate);
+            } else {
+                appointmentService.updateAppointmentStatus(appointmentId, AppointmentStatus.valueOf(status.toUpperCase()));
+            }
+            model.addAttribute("successMessage", "Appointment updated successfully!");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error updating appointment: " + e.getMessage());
+        }
+        return "redirect:/doctor/dashboard";
     }
 }
 

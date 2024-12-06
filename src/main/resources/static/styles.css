@@ -1,0 +1,34 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.header-container {
+    background-color: #81b1e2;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.header-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    font-weight: bold; /* Bold title */
+    font-size: 1.5rem; /* Adjust font size */
+}
+
+.navbar {
+    padding: 10px 20px; /* Add some padding for better spacing */
+    border-bottom: 2px solid #ddd; /* Optional bottom border for separation */
+}

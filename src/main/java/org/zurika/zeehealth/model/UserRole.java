@@ -1,6 +1,6 @@
 package org.zurika.zeehealth.model;
 
-public enum Role {
+public enum UserRole {
     ADMIN,
     DOCTOR,
     PATIENT

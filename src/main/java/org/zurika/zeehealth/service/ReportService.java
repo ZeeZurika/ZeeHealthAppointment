@@ -1,11 +1,10 @@
-package org.zurika.healthappointment.service;
+package org.zurika.zeehealth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.zurika.healthappointment.model.Appointment;
-
-import java.util.List;
-import java.util.Map;
+import org.zurika.zeehealth.model.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,11 +22,15 @@ public class ReportService {
     }
 
     private String generateAppointmentsByPatientReport() {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
+        // Fetch all appointments (no pagination for reports)
+        List<Appointment> appointments = appointmentService.getAllAppointments(PageRequest.of(0, Integer.MAX_VALUE)).getContent();
 
+        // Group appointments by patient ID
         Map<Long, List<Appointment>> groupedByPatient = appointments.stream()
+                .filter(a -> a.getPatient() != null) // Ensure patient is not null
                 .collect(Collectors.groupingBy(appointment -> appointment.getPatient().getId()));
 
+        // Build the report
         StringBuilder report = new StringBuilder("Appointments by Patient:\n");
         groupedByPatient.forEach((patientId, patientAppointments) -> {
             report.append("Patient ID: ").append(patientId).append("\nAppointments:\n");
@@ -39,11 +42,15 @@ public class ReportService {
     }
 
     private String generateAppointmentsByDoctorReport() {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
+        // Fetch all appointments (no pagination for reports)
+        List<Appointment> appointments = appointmentService.getAllAppointments(PageRequest.of(0, Integer.MAX_VALUE)).getContent();
 
+        // Group appointments by doctor ID
         Map<Long, List<Appointment>> groupedByDoctor = appointments.stream()
+                .filter(a -> a.getDoctor() != null) // Ensure doctor is not null
                 .collect(Collectors.groupingBy(appointment -> appointment.getDoctor().getId()));
 
+        // Build the report
         StringBuilder report = new StringBuilder("Appointments by Doctor:\n");
         groupedByDoctor.forEach((doctorId, doctorAppointments) -> {
             report.append("Doctor ID: ").append(doctorId).append("\nAppointments:\n");
