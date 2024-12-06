@@ -33,29 +33,21 @@ public class PatientController {
                                    @RequestParam(defaultValue = "10") int size,
                                    @RequestParam(required = false) String status) {
         User patient = userService.getByUsername(userDetails.getUsername());
-        List<User> doctors = userService.getAllDoctors(); // Fetch all doctors for scheduling
-
-        Page<Appointment> appointmentsPage;
-        if (status != null && !status.isBlank()) {
-            appointmentsPage = appointmentService.getPatientAppointmentsByStatus(
-                    patient.getId(), status, PageRequest.of(page, size));
-        } else {
-            appointmentsPage = appointmentService.getPatientAppointments(
-                    patient.getId(), PageRequest.of(page, size));
-        }
+        Page<Appointment> appointmentsPage = (status != null && !status.isBlank())
+                ? appointmentService.getPatientAppointmentsByStatus(patient.getId(), status, PageRequest.of(page, size))
+                : appointmentService.getPatientAppointments(patient.getId(), PageRequest.of(page, size));
 
         model.addAttribute("appointments", appointmentsPage.getContent());
         model.addAttribute("totalPages", appointmentsPage.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
         model.addAttribute("status", status);
-        model.addAttribute("doctors", doctors); // Add list of doctors
-        model.addAttribute("patient", patient); // Add patient data
+        model.addAttribute("doctors", userService.getAllDoctors()); // Fetch doctors on demand
+        model.addAttribute("patient", patient); // Include patient info for forms
 
         return "patient-dashboard";
     }
-
-
+    
     /**
      * Schedule a new appointment.
      */

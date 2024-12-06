@@ -72,6 +72,9 @@ public class AppointmentService {
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found!"));
         appointment.setStatus(status);
         appointmentRepository.save(appointment);
+
+        // ***** This will be deleted after the application is developed
+        System.out.println("Updated status to: " + appointment.getStatus()); // Log for verification
     }
 
     // Reschedule an appointment

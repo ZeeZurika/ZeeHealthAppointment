@@ -16,6 +16,7 @@
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
+    <!-- Tabs for Admin Dashboard -->
     <ul class="nav nav-tabs" id="adminTabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="manageUsersTab" data-bs-toggle="tab" href="#manageUsers" role="tab">Manage Users</a>
@@ -34,7 +35,7 @@
             <h2>Manage Users</h2>
 
             <!-- Add User Form -->
-            <form action="/admin/addUser" method="post">
+            <form action="/admin/addUser" method="post" class="mb-4">
                 <div class="mb-3">
                     <input type="text" class="form-control" name="username" placeholder="Username" required>
                 </div>
@@ -61,11 +62,9 @@
                 <button type="submit" class="btn btn-primary">Add User</button>
             </form>
 
-            <hr>
-
             <!-- List of Users -->
-            <h4 class="mt-4">Current Users</h4>
-            <table class="table">
+            <h4>Current Users</h4>
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Username</th>
