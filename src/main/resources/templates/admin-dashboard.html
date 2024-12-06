@@ -19,19 +19,22 @@
     <!-- Tabs for Admin Dashboard -->
     <ul class="nav nav-tabs" id="adminTabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="manageUsersTab" data-bs-toggle="tab" href="#manageUsers" role="tab">Manage Users</a>
+            <a class="nav-link" id="manageUsersTab" data-bs-toggle="tab" href="#manageUsers" role="tab"
+               th:classappend="${activeTab == 'manageUsers'} ? 'active' : ''">Manage Users</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="appointmentsTab" data-bs-toggle="tab" href="#appointments" role="tab">Appointments</a>
+            <a class="nav-link" id="appointmentsTab" data-bs-toggle="tab" href="#appointments" role="tab"
+               th:classappend="${activeTab == 'appointments'} ? 'active' : ''">Appointments</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="reportsTab" data-bs-toggle="tab" href="#reports" role="tab">Reports</a>
+            <a class="nav-link" id="reportsTab" data-bs-toggle="tab" href="#reports" role="tab"
+               th:classappend="${activeTab == 'reports'} ? 'active' : ''">Reports</a>
         </li>
     </ul>
 
     <div class="tab-content mt-3" id="adminTabsContent">
         <!-- Manage Users Tab -->
-        <div class="tab-pane fade show active" id="manageUsers" role="tabpanel">
+        <div class="tab-pane fade" id="manageUsers" role="tabpanel" th:classappend="${activeTab == 'manageUsers'} ? 'show active' : ''">
             <h2>Manage Users</h2>
 
             <!-- Add User Form -->
@@ -94,7 +97,7 @@
         </div>
 
         <!-- Appointments Tab -->
-        <div class="tab-pane fade" id="appointments" role="tabpanel">
+        <div class="tab-pane fade" id="appointments" role="tabpanel" th:classappend="${activeTab == 'appointments'} ? 'show active' : ''">
             <h2>Appointments</h2>
             <table class="table">
                 <thead>
@@ -119,9 +122,10 @@
         </div>
 
         <!-- Reports Tab -->
-        <div class="tab-pane fade" id="reports" role="tabpanel">
+        <div class="tab-pane fade" id="reports" role="tabpanel" th:classappend="${activeTab == 'reports'} ? 'show active' : ''">
             <h2>Generate Reports</h2>
             <form action="/admin/generateReport" method="post">
+                <input type="hidden" name="activeTab" value="reports">
                 <div class="mb-3">
                     <select class="form-select" name="reportType">
                         <option value="appointments-by-patient">Appointments by Patient</option>

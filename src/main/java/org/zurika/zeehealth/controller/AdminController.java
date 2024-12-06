@@ -71,19 +71,18 @@ public class AdminController {
      */
     @PostMapping("/admin/generateReport")
     public String generateReport(@RequestParam String reportType,
-                                 @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "10") int size, Model model) {
+                                 @RequestParam(defaultValue = "manageUsers") String activeTab,
+                                 Model model) {
         try {
-            // Generate the report
-            String report = reportService.generateReport(reportType);
-            model.addAttribute("report", report);
-            model.addAttribute("reportType", reportType);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "Invalid report type selected: " + reportType);
+            // Logic to generate the report
+            String reportUrl = reportService.generateReport(reportType);
+            model.addAttribute("successMessage", "Report generated successfully! Download it <a href='" + reportUrl + "'>here</a>.");
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error generating report: " + e.getMessage());
         }
-
-        // Add attributes for reloading the dashboard
-        return getString(page, size, model);
+        // Add the active tab to the model
+        model.addAttribute("activeTab", activeTab);
+        return "admin-dashboard";
     }
 
     private String getString(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, Model model) {
