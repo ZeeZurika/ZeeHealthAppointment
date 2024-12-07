@@ -35,6 +35,7 @@ public class AdminController {
         model.addAttribute("totalPages", appointmentPage.getTotalPages());
         model.addAttribute("pageNumber", page);
         model.addAttribute("pageSize", size);
+        model.addAttribute("title", "Admin Dashboard");
 
         // Fetch users sorted by id (newest first)
         model.addAttribute("users", userService.getAllUsers());

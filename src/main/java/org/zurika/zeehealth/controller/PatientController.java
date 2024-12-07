@@ -44,7 +44,7 @@ public class PatientController {
         model.addAttribute("status", status);
         model.addAttribute("doctors", userService.getAllDoctors()); // Fetch doctors on demand
         model.addAttribute("patient", patient); // Include patient info for forms
-
+        model.addAttribute("title", "Patient Dashboard");
         return "patient-dashboard";
     }
     

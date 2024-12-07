@@ -37,6 +37,7 @@ public class DoctorController {
         model.addAttribute("totalPages", appointmentsPage.getTotalPages());
         model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", size);
+        model.addAttribute("title", "Doctor Dashboard");
 
         return "doctor-dashboard";
     }

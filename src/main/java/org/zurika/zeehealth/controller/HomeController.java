@@ -2,6 +2,7 @@ package org.zurika.zeehealth.controller;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -9,7 +10,8 @@ public class HomeController {
 
     // Login page
     @GetMapping("/")
-    public String showLoginPage() {
+    public String showLoginPage(Model model) {
+        model.addAttribute("title", "Login Page");
         return "login"; // HTML page for login
     }
 
@@ -28,3 +30,4 @@ public class HomeController {
         };
     }
 }
+

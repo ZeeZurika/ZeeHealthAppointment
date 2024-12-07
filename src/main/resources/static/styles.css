@@ -80,8 +80,18 @@ body {
 
 /* Footer */
 .footer {
-    background-color: #0D47A1; /* Navy Blue Footer */
-    color: #FFFFFF; /* White Text */
-    padding: 1rem;
+    background-color: #0D47A1; /* Navy Blue */
+    color: #FFFFFF; /* White */
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
     text-align: center;
+}
+.footer a {
+    color: #E3F2FD; /* Light Blue */
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
 }
