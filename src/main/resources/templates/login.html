@@ -2,10 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/navigation :: head}"></head>
 <body>
-<div th:replace="~{fragments/navigation :: banner}"></div>
+<div th:insert="~{fragments/navigation :: banner}"></div>
 
 <div class="container mt-5">
     <h2>Login</h2>
+
+    <!-- Error Message -->
+    <div th:if="${param.error}" class="alert alert-danger">
+        Invalid username or password. Please try again.
+    </div>
+
+    <!-- Login Form -->
     <form action="/login" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -18,7 +25,7 @@
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
-
+<br><br><br>
 <div th:replace="~{fragments/navigation :: footer}"></div>
 </body>
 </html>

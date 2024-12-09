@@ -47,6 +47,17 @@ body {
     color: #212529; /* Dark Gray Text for readability */
 }
 
+.logo {
+    width: 50px; /* Adjust width */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Optional spacing between the image and text */
+    vertical-align: middle; /* Align the image with the text */
+}
+.header-text {
+    display: inline; /* Ensure text is on the same line as the image */
+    vertical-align: middle;
+}
+
 /* Navigation Bar */
 .navbar {
     background-color: #0D47A1; /* Navy Blue Header/Navigation */
