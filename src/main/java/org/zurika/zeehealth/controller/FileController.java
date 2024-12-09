@@ -12,6 +12,7 @@ import java.nio.file.*;
 @RequestMapping("/files")
 public class FileController {
 
+    //Downloading generated file
     @GetMapping("/reports/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
         try {

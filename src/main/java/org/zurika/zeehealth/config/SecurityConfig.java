@@ -49,7 +49,6 @@ public class SecurityConfig {
 
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        // Remove the default "ROLE_" prefix
         return new GrantedAuthorityDefaults("");
     }
 }

@@ -25,13 +25,15 @@ public class DoctorController {
     @Autowired
     private AppointmentService appointmentService;
 
+    // Display the doctor dashboard
     @GetMapping("/doctor/dashboard")
     public String doctorDashboard(Model model,
                                   @AuthenticationPrincipal UserDetails userDetails,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "10") int size) {
         User doctor = userService.getByUsername(userDetails.getUsername());
-        Page<Appointment> appointmentsPage = appointmentService.getDoctorAppointments(doctor.getId(), PageRequest.of(page, size));
+        Page<Appointment> appointmentsPage = appointmentService
+                .getDoctorAppointments(doctor.getId(), PageRequest.of(page, size));
 
         model.addAttribute("appointments", appointmentsPage.getContent());
         model.addAttribute("totalPages", appointmentsPage.getTotalPages());
@@ -43,7 +45,7 @@ public class DoctorController {
     }
 
 
-    // Update the status of an appointment (e.g., Confirm, Complete, Cancel, Reschedule)
+    // Update the status of an appointment (Confirm, Complete, Cancel, Reschedule)
     @PostMapping("/doctor/updateStatus")
     public String updateAppointmentStatus(@RequestParam Long appointmentId,
                                           @RequestParam String status,
@@ -57,6 +59,5 @@ public class DoctorController {
         }
         return "redirect:/doctor/dashboard";
     }
-
 }
 

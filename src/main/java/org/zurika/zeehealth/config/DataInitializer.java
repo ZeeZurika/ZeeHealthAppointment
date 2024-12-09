@@ -16,16 +16,15 @@ public class DataInitializer {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * Initialize default data on application startup.
-     */
+
+    //Initialize default data on application startup
     @PostConstruct
     public void initData() {
         // Create default admin user if not exists
         if (!userRepository.existsByUsername("admin")) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setEmail("admin@example.com");
+            admin.setEmail("admin@per.com");
             admin.setPassword(passwordEncoder.encode("admin123")); // Hash the password
             admin.setRole(UserRole.ADMIN);
             admin.setFirstName("FirstAdmin");
@@ -37,7 +36,7 @@ public class DataInitializer {
         if (!userRepository.existsByUsername("doctor")) {
             User doctor = new User();
             doctor.setUsername("doctor");
-            doctor.setEmail("doctor@example.com");
+            doctor.setEmail("doctor@per.com");
             doctor.setPassword(passwordEncoder.encode("doctor123")); // Hash the password
             doctor.setRole(UserRole.DOCTOR);
             doctor.setFirstName("FirstDoctor");
@@ -49,7 +48,7 @@ public class DataInitializer {
         if (!userRepository.existsByUsername("patient")) {
             User patient = new User();
             patient.setUsername("patient");
-            patient.setEmail("patient@example.com");
+            patient.setEmail("patient@per.com");
             patient.setPassword(passwordEncoder.encode("patient123")); // Hash the password
             patient.setRole(UserRole.PATIENT);
             patient.setFirstName("FirstPatient");

@@ -73,10 +73,10 @@ class AppointmentServiceTest {
         when(userRepository.findById(doctorId)).thenReturn(Optional.of(doctor));
         when(appointmentRepository.save(any(Appointment.class))).thenReturn(mockAppointment);
 
-        // Act: Call the method
+        // Call the method
         Appointment appointment = appointmentService.scheduleAppointment(patientId, doctorId, appointmentDate);
 
-        // Assert: Verify the result
+        // Verify the result
         assertNotNull(appointment);
         assertEquals(patientId, appointment.getPatient().getId());
         assertEquals(doctorId, appointment.getDoctor().getId());

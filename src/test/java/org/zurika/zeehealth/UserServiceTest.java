@@ -46,7 +46,7 @@ class UserServiceTest {
             return savedUser;
         });
 
-        // Act: Call the addUser method
+        // Call the addUser method
         User createdUser = userService.addUser(
                 user.getUsername(),
                 user.getEmail(),
@@ -56,7 +56,7 @@ class UserServiceTest {
                 "PATIENT"
         );
 
-        // Assert: Verify the results
+        // Verify the results
         assertNotNull(createdUser);
         assertEquals("testuser", createdUser.getUsername());
         assertEquals("hashedPassword123", createdUser.getPassword()); // Verify hashed password

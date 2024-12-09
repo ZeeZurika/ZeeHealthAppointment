@@ -23,9 +23,7 @@ public class PatientController {
     @Autowired
     private AppointmentService appointmentService;
 
-    /**
-     * Patient Dashboard: View appointments with optional filtering and pagination.
-     */
+    // Displaying patient dashboard: View appointments with optional filtering and pagination
     @GetMapping("/patient/dashboard")
     public String patientDashboard(Model model,
                                    @AuthenticationPrincipal UserDetails userDetails,
@@ -47,10 +45,8 @@ public class PatientController {
         model.addAttribute("title", "Patient Dashboard");
         return "patient-dashboard";
     }
-    
-    /**
-     * Schedule a new appointment.
-     */
+
+    // Schedule a new appointment.
     @PostMapping("/patient/schedule")
     public String scheduleAppointment(@RequestParam Long doctorId,
                                       @RequestParam String appointmentDate,
@@ -67,9 +63,7 @@ public class PatientController {
         return "redirect:/patient/dashboard";
     }
 
-    /**
-     * Cancel an appointment.
-     */
+    // Cancel an appointment
     @PostMapping("/patient/cancel")
     public String cancelAppointment(@RequestParam Long appointmentId, Model model) {
         try {
@@ -81,9 +75,7 @@ public class PatientController {
         return "redirect:/patient/dashboard";
     }
 
-    /**
-     * Update personal information.
-     */
+    //Update personal information.
     @PostMapping("/patient/updateInfo")
     public String updatePatientInfo(@RequestParam String firstName,
                                     @RequestParam String lastName,

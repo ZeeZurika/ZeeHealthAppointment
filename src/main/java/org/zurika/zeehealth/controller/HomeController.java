@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    // Login page
+    // Displaying the login page
     @GetMapping("/")
     public String showLoginPage(Model model) {
         model.addAttribute("title", "Login Page");

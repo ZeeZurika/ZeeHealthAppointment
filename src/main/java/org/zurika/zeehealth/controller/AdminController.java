@@ -23,9 +23,7 @@ public class AdminController {
     @Autowired
     private ReportService reportService;
 
-    /**
-     * Display the admin dashboard with paginated appointments.
-     */
+    //Display the admin dashboard
     @GetMapping("/admin/dashboard")
     public String adminDashboard(Model model,
                                  @RequestParam(defaultValue = "0") int page,
@@ -37,16 +35,13 @@ public class AdminController {
         model.addAttribute("pageSize", size);
         model.addAttribute("title", "Admin Dashboard");
 
-        // Fetch users sorted by id (newest first)
+        // Get users sorted by id (newest first)
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("reportTypes", new String[]{"appointments-by-patient", "appointments-by-doctor"});
         return "admin-dashboard";
     }
 
-
-    /**
-     * Add a new user.
-     */
+    //Add a new user
     @PostMapping("/admin/addUser")
     public String addUser(@RequestParam String username,
                           @RequestParam String email,
@@ -58,18 +53,14 @@ public class AdminController {
         return "redirect:/admin/dashboard";
     }
 
-    /**
-     * Delete a user by their ID.
-     */
+    //Delete a user by their ID
     @PostMapping("/admin/deleteUser")
     public String deleteUser(@RequestParam Long userId) {
         userService.deleteUser(userId);
         return "redirect:/admin/dashboard";
     }
 
-    /**
-     * Generate a report based on the selected type.
-     */
+    //Generate a report based on the selected type
     @PostMapping("/admin/generateReport")
     public String generateReport(@RequestParam String reportType,
                                  @RequestParam(defaultValue = "manageUsers") String activeTab,
@@ -77,17 +68,22 @@ public class AdminController {
         try {
             // Logic to generate the report
             String reportUrl = reportService.generateReport(reportType);
-            model.addAttribute("successMessage", "Report generated successfully! Download it <a href='" + reportUrl + "'>here</a>.");
+            model.addAttribute("successMessage",
+                    "Report generated successfully! Download it <a href='" +
+                            reportUrl + "'>here</a>.");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error generating report: " + e.getMessage());
+            model.addAttribute("errorMessage",
+                    "Error generating report: " + e.getMessage());
         }
-        // Add the active tab to the model
+        // Add the active tab to the dashboard
         model.addAttribute("activeTab", activeTab);
         return "admin-dashboard";
     }
 
+    // Generate report
     @PostMapping("/generateReport")
-    public String generateReport(@RequestParam String reportType, RedirectAttributes redirectAttributes) {
+    public String generateReport(@RequestParam String reportType,
+                                 RedirectAttributes redirectAttributes) {
         try {
             String fileUrl = reportService.generateReport(reportType); // Generate report and get file URL
             redirectAttributes.addFlashAttribute("successMessage",
